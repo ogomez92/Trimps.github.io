@@ -433,38 +433,38 @@
 				<div id="outerBuyContainer">	
 				<div id="buyTabs">
 					<ul id="buyTabsUl" class="nav nav-tabs nav-justified buyTabsUl">
-						<li role="presentation" id="allTab" onclick="filterTabs('all')" class="tabNotSelected buyTab"><a id="allA">All</a></li>
-						<li role="presentation" id="buildingsTab" onclick="filterTabs('buildings')" class="tabNotSelected buyTab"><a id="buildingsA"><span id="buildingsAlert" class="alert badge"></span>Buildings</a></li>
-						<li role="presentation" id="jobsTab" style="visibility: hidden" onclick="filterTabs('jobs')" class="tabNotSelected buyTab"><a id="jobsA"><span id="jobsAlert" class="alert badge"></span>Jobs</a></li>
-						<li role="presentation" id="upgradesTab" style="visibility: hidden" onclick="filterTabs('upgrades')" class="tabNotSelected buyTab"><a id="upgradesA"><span id="upgradesAlert" class="alert badge"></span>Upgrades</a></li>
-						<li role="presentation" id="equipmentTab" style="visibility: hidden" onclick="filterTabs('equipment')" class="tabNotSelected buyTab"><a id="equipmentA"><span id="equipmentAlert" class="alert badge"></span>Equipment</a></li>		
+						<li role="link" id="allTab" onclick="filterTabs('all')" class="tabNotSelected buyTab"><a id="allA">All</a></li>
+						<li role="link" id="buildingsTab" onclick="filterTabs('buildings')" class="tabNotSelected buyTab"><a id="buildingsA"><span id="buildingsAlert" class="alert badge"></span>Buildings</a></li>
+						<li role="link" id="jobsTab" style="visibility: hidden" onclick="filterTabs('jobs')" class="tabNotSelected buyTab"><a id="jobsA"><span id="jobsAlert" class="alert badge"></span>Jobs</a></li>
+						<li role="link" id="upgradesTab" style="visibility: hidden" onclick="filterTabs('upgrades')" class="tabNotSelected buyTab"><a id="upgradesA"><span id="upgradesAlert" class="alert badge"></span>Upgrades</a></li>
+						<li role="link" id="equipmentTab" style="visibility: hidden" onclick="filterTabs('equipment')" class="tabNotSelected buyTab"><a id="equipmentA"><span id="equipmentAlert" class="alert badge"></span>Equipment</a></li>		
 					</ul>
 					<ul id="buyTabsUl2" class="nav nav-tabs nav-justified buyTabsUl">
-						<li role="presentation" id="talentsTab" style='display: none' onclick="filterTabs('talents')" class="tabNotSelected buyTab" onmouseover="tooltip('Mastery', null, event)" onmouseout="tooltip('hide')"><a id="talentA"><span id="talentsAlert" class="alert badge"></span>Mastery<span id="talentsEssenceTotal"></span></a></li>		
-						<li role="presentation" id="natureTab" style='display: none'  onclick="filterTabs('nature')" class="tabNotSelected buyTab empowerTabNone" onmouseover="tooltip('Empowerments of Nature', null, event)" onmouseout="tooltip('hide')"><a id="natureA">Nature</a></li>		
-						<li role="presentation" id="playerSpireTab" style='display: none' onclick="playerSpire.openPopup()" class="tabNotSelected buyTab pausedSpireNo"><a id="spireA">Spire</a></li>		
+						<li role="link" id="talentsTab" style='display: none' onclick="filterTabs('talents')" class="tabNotSelected buyTab" onmouseover="tooltip('Mastery', null, event)" onmouseout="tooltip('hide')"><a id="talentA"><span id="talentsAlert" class="alert badge"></span>Mastery<span id="talentsEssenceTotal"></span></a></li>		
+						<li role="link" id="natureTab" style='display: none'  onclick="filterTabs('nature')" class="tabNotSelected buyTab empowerTabNone" onmouseover="tooltip('Empowerments of Nature', null, event)" onmouseout="tooltip('hide')"><a id="natureA">Nature</a></li>		
+						<li role="link" id="playerSpireTab" style='display: none' onclick="playerSpire.openPopup()" class="tabNotSelected buyTab pausedSpireNo"><a id="spireA">Spire</a></li>		
 					</ul>
 				</div>
 
 					<div id="numTabs" class="numTabs">
 						<ul class="nav nav-tabs nav-justified">
-							<li role="presentation" class="tabNotSelected" id="tab1" onclick="numTab(1)">
+							<li role="link" class="tabNotSelected" id="tab1" onclick="numTab(1)">
 								<a id="tab1Text">+1</a>
 							</li>
-							<li role="presentation" class="tabNotSelected" id="tab2" onclick="numTab(2)">
+							<li role="link" class="tabNotSelected" id="tab2" onclick="numTab(2)">
 								<a id="tab2Text">+10</a>
 							</li>
-							<li role="presentation" class="tabNotSelected" id="tab3" onclick="numTab(3)">
+							<li role="link" class="tabNotSelected" id="tab3" onclick="numTab(3)">
 								<a id="tab3Text">+25</a>
 							</li>
-							<li role="presentation" class="tabNotSelected" id="tab4" onclick="numTab(4)">
+							<li role="link" class="tabNotSelected" id="tab4" onclick="numTab(4)">
 								<a id="tab4Text">+100</a>
 							</li>
-							<li role="presentation" class="tabNotSelected" id="tab5">
+							<li role="link" class="tabNotSelected" id="tab5">
 								<a id="tab5Text" onclick="numTab(5)">+1</a>
 								<a id="tab5Text2" onclick="tooltip('Custom', null, 'update')">Custom</a>
 							</li>
-							<li role="presentation" class="tabNotSelected" id="tab6" onclick="numTab(6)" onmouseover="tooltip('Buy Max', 'customText', event, 'Switching to this option will spend the majority of your resources with each purchase. <b>Click twice to customize.</b>')" onmouseout="tooltip('hide')" >
+							<li role="link" class="tabNotSelected" id="tab6" onclick="numTab(6)" onmouseover="tooltip('Buy Max', 'customText', event, 'Switching to this option will spend the majority of your resources with each purchase. <b>Click twice to customize.</b>')" onmouseout="tooltip('hide')" >
 								<a id="tab6Text">Max</a>
 							</li>
 						</ul>
@@ -524,7 +524,7 @@
 								<div id="upgradesTitleDiv" style="display: none" class="titleDiv">
 									<div class="row">
 										<div class="col-xs-3" style="padding-right: 5px">
-											<nav><h2><span id="upgradesTitleSpan" class="titleSpan">Upgrades<br/>(Research first)</span></h2></nav>
+											<h2><span role="navigation" id="upgradesTitleSpan" class="titleSpan">Upgrades<br/>(Research first)</span></h2>
 										</div>
 										<div class="col-xs-3 lowPad">								
 											<div id="autoGoldenBtn" onmouseover="tooltip('AutoGold', null, event)" onmouseout="tooltip('hide')" class="pointer noselect settingBtn0 autoUpgradeBtn">
@@ -835,7 +835,7 @@
 								<span id="heirloomsBtn" class="btn fightBtn heirloomsBtnColor" onclick="toggleHeirlooms()">Heirlooms</span>
 							</div>
 							<div class="battleSideBtnContainer" style="display: none" id="boneBtnContainer">
-								<span class="btn btn-default fightBtn" id="boneBtnMain" onclick="showBones()">
+								<span role="button" class="btn btn-default fightBtn" id="boneBtnMain" onclick="showBones()">
 									<span id="boneBtnText">Bone Trader</span>
 								</span>
 							</div>							
@@ -1067,56 +1067,56 @@
 			<div id="portalStory"></div>
 			<div id="portalPresets" class="numTabs">
 				<ul class="nav nav-tabs nav-justified" id="portalPresetsTabs">
-						<li role="presentation" class="tabNotSelected" id="presetTab1" onclick="presetTab(1, true)" onmouseover="tooltip('Perk Preset', null, event, 1)" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotSelected" id="presetTab1" onclick="presetTab(1, true)" onmouseover="tooltip('Perk Preset', null, event, 1)" onmouseout="tooltip('hide')">
 							<a id="presetTab1Text">Preset 1</a>
 						</li>
-						<li role="presentation" class="tabNotSelected" id="presetTab2" onclick="presetTab(2, true)" onmouseover="tooltip('Perk Preset', null, event, 2)" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotSelected" id="presetTab2" onclick="presetTab(2, true)" onmouseover="tooltip('Perk Preset', null, event, 2)" onmouseout="tooltip('hide')">
 							<a id="presetTab2Text">Preset 2</a>
 						</li>
-						<li role="presentation" class="tabNotSelected" id="presetTab3" onclick="presetTab(3, true)" onmouseover="tooltip('Perk Preset', null, event, 3)" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotSelected" id="presetTab3" onclick="presetTab(3, true)" onmouseover="tooltip('Perk Preset', null, event, 3)" onmouseout="tooltip('hide')">
 							<a id="presetTab3Text">Preset 3</a>
 						</li>
-						<li role="presentation" class="tabNotEnabled" id="presetTabSave" onclick="savePerkPreset()" onmouseover="tooltip('Perk Preset', null, event, 'Save')" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotEnabled" id="presetTabSave" onclick="savePerkPreset()" onmouseover="tooltip('Perk Preset', null, event, 'Save')" onmouseout="tooltip('hide')">
 							<a>Save</a>
 						</li>
-						<li role="presentation" class="tabNotEnabled" id="presetTabLoad" onclick="loadPerkPreset()" onmouseover="tooltip('Perk Preset', null, event, 'Load')" onmouseout="tooltip('hide')">							
+						<li role="link" class="tabNotEnabled" id="presetTabLoad" onclick="loadPerkPreset()" onmouseover="tooltip('Perk Preset', null, event, 'Load')" onmouseout="tooltip('hide')">							
 							<a>Load</a>
 						</li>
-						<li role="presentation" class="tabNotEnabled" id="presetTabRename" onclick="renamePerkPreset(true)" onmouseover="tooltip('Perk Preset', null, event, 'Rename')" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotEnabled" id="presetTabRename" onclick="renamePerkPreset(true)" onmouseover="tooltip('Perk Preset', null, event, 'Rename')" onmouseout="tooltip('hide')">
 							<a>Rename</a>
 						</li>
-						<li role="presentation" class="tabNotEnabled" id="presetTabExport" onclick="tooltip('Export Perks', null, 'update')" onmouseover="tooltip('Perk Preset', null, event, 'Export')" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotEnabled" id="presetTabExport" onclick="tooltip('Export Perks', null, 'update')" onmouseover="tooltip('Perk Preset', null, event, 'Export')" onmouseout="tooltip('hide')">
 							<a>Export</a>
 						</li>
-						<li role="presentation" class="tabNotEnabled" id="presetTabImport" onclick="tooltip('Import Perks', null, 'update')" onmouseover="tooltip('Perk Preset', null, event, 'Import')" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotEnabled" id="presetTabImport" onclick="tooltip('Import Perks', null, 'update')" onmouseover="tooltip('Perk Preset', null, event, 'Import')" onmouseout="tooltip('hide')">
 							<a>Import</a>
 						</li>
 				</ul>
 			</div>
 				<div id="pnumTabs" class="numTabs">
 					<ul class="nav nav-tabs nav-justified" id="portalTabs">
-						<li role="presentation" class="tabNotSelected" id="ptab1" onclick="numTab(1, true)">
+						<li role="link" class="tabNotSelected" id="ptab1" onclick="numTab(1, true)">
 							<a id="ptab1Text">+1</a>
 						</li>
-						<li role="presentation"  class="tabNotSelected" id="ptab2" onclick="numTab(2, true)">
+						<li role="link"  class="tabNotSelected" id="ptab2" onclick="numTab(2, true)">
 							<a id="ptab2Text">+10</a>
 						</li>
-						<li role="presentation"  class="tabNotSelected" id="ptab3" onclick="numTab(3, true)">
+						<li role="link"  class="tabNotSelected" id="ptab3" onclick="numTab(3, true)">
 							<a id="ptab3Text">+25</a>
 						</li>
-						<li role="presentation"  class="tabNotSelected" id="ptab4" onclick="numTab(4, true)">
+						<li role="link"  class="tabNotSelected" id="ptab4" onclick="numTab(4, true)">
 							<a id="ptab4Text">+100</a>
 						</li>
-						<li role="presentation"  class="tabNotSelected" id="ptab5" onclick="tooltip('Custom', null, 'update', true)">
+						<li role="link"  class="tabNotSelected" id="ptab5" onclick="tooltip('Custom', null, 'update', true)">
 							<a id="ptab5Text">Custom</a>
 						</li>
-						<li role="presentation" class="tabNotSelected" id="ptab6" onclick="numTab(6, true)" onmouseover="tooltip('Buy Max', 'customText', event, 'Switching to this option will spend the majority of your Helium with each purchase. <b>Click twice to customize.</b>')" onmouseout="tooltip('hide')">
+						<li role="link" class="tabNotSelected" id="ptab6" onclick="numTab(6, true)" onmouseover="tooltip('Buy Max', 'customText', event, 'Switching to this option will spend the majority of your Helium with each purchase. <b>Click twice to customize.</b>')" onmouseout="tooltip('hide')">
 							<a id="ptab6Text">Max</a>
 						</li>
-						<li role="presentation" class="tabNotSelected pointer" id="ptabInfo" onclick="toggleSetting('detailedPerks', null, true)">
+						<li role="link" class="tabNotSelected pointer" id="ptabInfo" onclick="toggleSetting('detailedPerks', null, true)">
 							<a id="ptabInfoText">More Info</a>
 						</li>
-						<li role="presentation" id="ptabRemove" style="display: none" onclick="toggleRemovePerks()">
+						<li role="link" id="ptabRemove" style="display: none" onclick="toggleRemovePerks()">
 							<a id="ptabRemoveText">Remove</a>
 						</li>
 					</ul>
@@ -1472,13 +1472,13 @@
 					<input id='searchSettings' onkeyup='searchSettings(this)' /><br/>
 					<div id='settingsTabs'>
 						<ul class="nav nav-tabs nav-justified">
-							<li role="presentation" style='display: none' id='NewTab' onclick="settingTab('New')" class="tabNotSelected settingTab"><a>New</a></li>
-							<li role="presentation" id='GeneralTab' onclick="settingTab('General')" class="tabNotSelected settingTab"><a>General</a></li>
-							<li role="presentation" id='PerformanceTab' onclick="settingTab('Performance')" class="tabNotSelected settingTab"><a>Performance</a></li>
-							<li role="presentation"  id='QOLTab' onclick="settingTab('QOL')" class="tabNotSelected settingTab"><a>Quality of Life</a></li>
-							<li role="presentation"  id='AlertsTab' onclick="settingTab('Alerts')" class="tabNotSelected settingTab"><a>Pop-ups and Alerts</a></li>
-							<li role="presentation"  id='LayoutTab' onclick="settingTab('Layout')" class="tabNotSelected settingTab"><a>Layout</a></li>
-							<li role="presentation"  id='OtherTab' onclick="settingTab('Other')" class="tabNotSelected settingTab"><a>Other</a></li>
+							<li role="link" style='display: none' id='NewTab' onclick="settingTab('New')" class="tabNotSelected settingTab"><a>New</a></li>
+							<li role="link" id='GeneralTab' onclick="settingTab('General')" class="tabNotSelected settingTab"><a>General</a></li>
+							<li role="link" id='PerformanceTab' onclick="settingTab('Performance')" class="tabNotSelected settingTab"><a>Performance</a></li>
+							<li role="link"  id='QOLTab' onclick="settingTab('QOL')" class="tabNotSelected settingTab"><a>Quality of Life</a></li>
+							<li role="link"  id='AlertsTab' onclick="settingTab('Alerts')" class="tabNotSelected settingTab"><a>Pop-ups and Alerts</a></li>
+							<li role="link"  id='LayoutTab' onclick="settingTab('Layout')" class="tabNotSelected settingTab"><a>Layout</a></li>
+							<li role="link"  id='OtherTab' onclick="settingTab('Other')" class="tabNotSelected settingTab"><a>Other</a></li>
 						</ul>
 					</div>
 				</div>					
