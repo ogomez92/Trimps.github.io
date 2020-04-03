@@ -6121,8 +6121,9 @@ function screenReaderSummary() {
 
 	srSumWorldZone.innerHTML = game.global.world;
 	let active = getEmpowerment()
-	var emp = game.empowerments[active];
 	if (typeof active !== "undefined") {
+		var emp = game.empowerments[active];
+
 		if (typeof emp.description !== 'undefined') srSumWorldZone.innerHTML = game.global.world + "(" + emp.description + ")";
 	}
 	srSumWorldCell.innerHTML = game.global.lastClearedCell + 2;
