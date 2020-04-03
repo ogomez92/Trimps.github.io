@@ -219,7 +219,7 @@
 				<div class="row resourceRow">
 					<div class="col-xs-6 maxH">
 						<div id="food" class="playerGather">
-							<h1 class="title">Food</h1>
+							<div class="title">Food</div>
 							<span class="ownedArea bdHover" onclick="getMaxResources('Food')"><span id="foodOwned">0</span> / <span id="foodMax"></span></span>
 							<br/>
 							<div class="progress resProgress">
@@ -240,7 +240,7 @@
 
 					<div class="col-xs-6 maxH">
 						<div id="wood" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Wood</h1>
+							<div class="title">Wood</div>
 							<span class="ownedArea bdHover" onclick="getMaxResources('Wood')"><span id="woodOwned">0</span> / <span id="woodMax"></span></span>
 							<br/>
 							<div class="progress resProgress">
@@ -263,7 +263,7 @@
 				<div class="row resourceRow">
 					<div class="col-xs-6 maxH">
 						<div id="metal" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Metal</h1>
+							<div class="title">Metal</div>
 							<span class="ownedArea bdHover" onclick="getMaxResources('Metal')"><span id="metalOwned">0</span> / <span id="metalMax"></span></span>
 							<br/>
 							<div class="progress resProgress">
@@ -283,7 +283,7 @@
 					</div>
 					<div class="col-xs-6 maxH">
 						<div id="science" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Science</h1>
+							<div class="title">Science</div>
 							<span class="ownedArea"><span id="scienceOwned">0</span></span>
 							<br/>
 							<div class="row collectRow">
@@ -314,7 +314,7 @@
 					<span class="psText sizeSecRegular pointer noselect" id="gemsPs" style="display: none" onclick="getPsString('gems')">+0/sec</span>
 				</div>
 				<div id="helium" class="playerGather playerGatherSm" style="display: none">
-					<span id="heliumName" class="title">Helium</span>
+					<h1 id="heliumName" class="title">Helium</h1>
 					<br/>
 					<span class="ownedArea"><span id="heliumOwned">0</span></span>
 					<br/>
@@ -336,7 +336,7 @@
 							</div>
 						</div>
 						<div class="col-xs-3" style="padding-left: 0">
-							<div id="fluffyBox" style="display: none" onmouseover="tooltip('Fluffy', null, event)" onmouseout="tooltip('hide')" onclick="tooltip('Fluffy', null, 'update')">
+							<div role="button" id="fluffyBox" style="display: none" onmouseover="tooltip('Fluffy', null, event)" onmouseout="tooltip('hide')" onclick="tooltip('Fluffy', null, 'update')">
 								<span class="fluffyIcon glyphicon glyphicon-user"></span>&nbsp;Lv<span id='fluffyLevel'></span><br/><div class="progress" id="fluffyExpContainer"><span class="progress-bar noTransition" id="fluffyExp">&nbsp;</span></div>
 							</div>
 						</div>
