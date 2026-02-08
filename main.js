@@ -13176,6 +13176,10 @@ function nextWorld() {
 	Fluffy.rewardExp();
 	game.global.world++;
 	document.getElementById('worldNumber').innerHTML = game.global.world;
+	if (usingScreenReader) {
+		var zoneAnnounce = document.getElementById('srZoneAnnounce');
+		if (zoneAnnounce) zoneAnnounce.textContent = 'Zone ' + game.global.world;
+	}
 	game.global.mapBonus = 0;
 	const mapBonusElem = document.getElementById('mapBonus');
 	if (mapBonusElem.innerHTML !== '') document.getElementById('mapBonus').innerHTML = '';
