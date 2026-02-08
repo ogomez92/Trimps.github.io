@@ -176,8 +176,7 @@
 					<div class="col-xs-6 maxH">
 						<div id="food" class="playerGather">
 							<button id="boneShrineBtn" style="display: none" class="isEmpty noselect" onclick="game.permaBoneBonuses.boosts.consume()"></button>
-							<h1 class="title">Food</h1>
-							<button class="ownedArea bdHover" onclick="getMaxResources('Food')"><span id="foodOwned">0</span> / <span id="foodMax"></span></button>
+							<button class="ownedArea bdHover" onclick="getMaxResources('Food')">Food: <span id="foodOwned">0</span> / <span id="foodMax"></span></button>
 							<br/>
 							<div class="progress resProgress">
 								<div class="progress-bar percentColorBlue" id="foodBar">
@@ -197,8 +196,7 @@
 
 					<div class="col-xs-6 maxH">
 						<div id="wood" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Wood</h1>
-							<button class="ownedArea bdHover" onclick="getMaxResources('Wood')"><span id="woodOwned">0</span> / <span id="woodMax"></span></button>
+							<button class="ownedArea bdHover" onclick="getMaxResources('Wood')">Wood: <span id="woodOwned">0</span> / <span id="woodMax"></span></button>
 							<br/>
 							<div class="progress resProgress">
 								<div class="progress-bar percentColorBlue" id="woodBar">
@@ -220,8 +218,7 @@
 				<div class="row resourceRow">
 					<div class="col-xs-6 maxH">
 						<div id="metal" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Metal</h1>
-							<button class="ownedArea bdHover" onclick="getMaxResources('Metal')"><span id="metalOwned">0</span> / <span id="metalMax"></span></button>
+							<button class="ownedArea bdHover" onclick="getMaxResources('Metal')">Metal: <span id="metalOwned">0</span> / <span id="metalMax"></span></button>
 							<br/>
 							<div class="progress resProgress">
 								<div class="progress-bar percentColorBlue" id="metalBar">
@@ -240,8 +237,7 @@
 					</div>
 					<div class="col-xs-6 maxH">
 						<div id="science" class="playerGather" style="visibility: hidden;">
-							<h1 class="title">Science</h1>
-							<span class="ownedArea"><span id="scienceOwned">0</span></span>
+							<button class="ownedArea" onclick="getPsString('science')">Science: <span id="scienceOwned">0</span></button>
 							<br/>
 							<div class="row collectRow">
 								<div class="col-xs-6">
@@ -257,25 +253,19 @@
 			</div>
 			<div class="col-xs-1" id="miscColumn">
 				<div id="fragments" class="playerGather playerGatherSm" style="visibility: hidden;">
-					<span class="title">Fragments</span>
-					<br/>
-					<span class="ownedArea"><span id="fragmentsOwned">0</span></span>
+					<button class="ownedArea" onclick="getPsString('fragments')">Fragments: <span id="fragmentsOwned">0</span></button>
 					<br/>
 					<button class="psText sizeSecRegular pointer noselect" id="fragmentsPs" style="display: none" onclick="getPsString('fragments')">+0/sec</button>
 				</div>
 				<div id="gems" class="playerGather playerGatherSm" style="visibility: hidden;">
-					<span class="title">Gems</span>
-					<br/>
-					<span class="ownedArea"><span id="gemsOwned">0</span></span>
+					<button class="ownedArea" onclick="getPsString('gems')">Gems: <span id="gemsOwned">0</span></button>
 					<br/>
 					<button class="psText sizeSecRegular pointer noselect" id="gemsPs" style="display: none" onclick="getPsString('gems')">+0/sec</button>
 				</div>
 				<div id="helium" class="playerGather playerGatherSm" style="display: none">
-					<span id="heliumName" class="title">Helium</span>
+					<button class="ownedArea"><span id="heliumName">Helium</span>: <span id="heliumOwned">0</span></button>
 					<br/>
-					<span class="ownedArea"><span id="heliumOwned">0</span></span>
-					<br/>
-					<span id="heliumPh"  class="heliumPh hePhColorNormal"></span>					
+					<span id="heliumPh"  class="heliumPh hePhColorNormal"></span>
 				</div>
 			</div>
 			<div class="col-xs-2" id="trimpsColumn">
@@ -297,7 +287,7 @@
 							</button>
 						</div>
 					</div>
-					<button class="ownedArea pointer noselect bdHover" onclick="getMaxTrimps()"><span id="trimpsOwned">0</span> / <span id="trimpsMax">10</span></button>
+					<button class="ownedArea pointer noselect bdHover" onclick="getMaxTrimps()">Trimps: <span id="trimpsOwned">0</span> / <span id="trimpsMax">10</span></button>
 					<br/>
 					<div class="progress resProgress">
 						<div class="progress-bar percentColorBlue" id="trimpsBar" role="progressbar"><span id="trimpsTimeToFill"></span></div>
@@ -406,27 +396,28 @@
 				</div>
 
 					<div id="numTabs" class="numTabs">
-						<ul class="nav nav-tabs nav-justified" aria-label="Buy Amount">
-							<li class="tabNotSelected" id="tab1" onclick="numTab(1)" role="tab">
-								<a id="tab1Text">+1</a>
-							</li>
-							<li class="tabNotSelected" id="tab2" onclick="numTab(2)" role="tab">
-								<a id="tab2Text">+10</a>
-							</li>
-							<li class="tabNotSelected" id="tab3" onclick="numTab(3)" role="tab">
-								<a id="tab3Text">+25</a>
-							</li>
-							<li class="tabNotSelected" id="tab4" onclick="numTab(4)" role="tab">
-								<a id="tab4Text">+100</a>
-							</li>
-							<li class="tabNotSelected" id="tab5" role="tab">
-								<a id="tab5Text" onclick="numTab(5)">+1</a>
-								<a id="tab5Text2" onclick="tooltip('Custom', null, 'update')">Custom</a>
-							</li>
-							<li class="tabNotSelected" id="tab6" onclick="numTab(6)" role="tab"  >
-								<a id="tab6Text">Max</a>
-							</li>
-						</ul>
+						<fieldset class="nav nav-tabs nav-justified">
+							<legend>Buy Amount</legend>
+							<label class="tabNotSelected" id="tab1">
+								<input type="radio" name="buyAmount" value="1" onclick="numTab(1)"> <span id="tab1Text">+1</span>
+							</label>
+							<label class="tabNotSelected" id="tab2">
+								<input type="radio" name="buyAmount" value="2" onclick="numTab(2)"> <span id="tab2Text">+10</span>
+							</label>
+							<label class="tabNotSelected" id="tab3">
+								<input type="radio" name="buyAmount" value="3" onclick="numTab(3)"> <span id="tab3Text">+25</span>
+							</label>
+							<label class="tabNotSelected" id="tab4">
+								<input type="radio" name="buyAmount" value="4" onclick="numTab(4)"> <span id="tab4Text">+100</span>
+							</label>
+							<label class="tabNotSelected" id="tab5">
+								<input type="radio" name="buyAmount" value="5" onclick="numTab(5)"> <span id="tab5Text">+1</span>
+								<button id="tab5Text2" onclick="tooltip('Custom', null, 'update')">Custom</button>
+							</label>
+							<label class="tabNotSelected" id="tab6">
+								<input type="radio" name="buyAmount" value="6" onclick="numTab(6)"> <span id="tab6Text">Max</span>
+							</label>
+						</fieldset>
 					</div>
 					<div id="buyContainer" class="niceScroll buyContainerSizeSm">
 
@@ -441,14 +432,14 @@
 										</div>
 										<div class="col-xs-3 lowPad">&nbsp;</div>
 										<div class="col-xs-3 lowPad">
-											<div id="autoStructureBtn" class="toggleConfigBtn pointer noselect colorDanger autoUpgradeBtn">
+											<div id="autoStructureBtn" class="toggleConfigBtn pointer noselect colorDanger autoUpgradeBtn" style="display: none">
 												<button id='autoStructureText' onclick="toggleAutoStructure()">AutoStructure</button>
 												<button aria-label="Configure Auto Structure" onclick="tooltip('Configure AutoStructure', null, 'update')"><span class="glyphicon glyphicon-cog"></span></button>
 											</div>
 										
 										</div>
 										<div class="col-xs-3" style="padding-left: 5px">
-											<button id="autoStorageBtn" class="pointer noselect colorDanger autoUpgradeBtn"  onclick="toggleAutoStorage()">AutoStorage</button>
+											<button id="autoStorageBtn" class="pointer noselect colorDanger autoUpgradeBtn" style="display: none" onclick="toggleAutoStorage()">AutoStorage</button>
 										</div>
 									</div>
 								</div>
@@ -1035,60 +1026,52 @@
 			<div class="challengeTitle">Perks</div>
 			<div id="portalStory"></div>
 			<div id="portalPresets" class="numTabs">
-				<ul class="nav nav-tabs nav-justified" id="portalPresetsTabs" aria-label="Presets and Import/Export">
-						<li class="tabNotSelected" id="presetTab1" onclick="presetTab(1, true)" role="tab">
-							<a id="presetTab1Text">Preset 1</a>
-						</li>
-						<li class="tabNotSelected" id="presetTab2" onclick="presetTab(2, true)" role="tab">
-							<a id="presetTab2Text">Preset 2</a>
-						</li>
-						<li class="tabNotSelected" id="presetTab3" onclick="presetTab(3, true)" role="tab">
-							<a id="presetTab3Text">Preset 3</a>
-						</li>
-						<li class="tabNotEnabled" id="presetTabSave" onclick="savePerkPreset()" role="tab">
-							<a>Save</a>
-						</li>
-						<li class="tabNotEnabled" id="presetTabLoad" onclick="loadPerkPreset()" role="tab">							
-							<a>Load</a>
-						</li>
-						<li class="tabNotEnabled" id="presetTabRename" onclick="renamePerkPreset(true)" role="tab">
-							<a>Rename</a>
-						</li>
-						<li class="tabNotEnabled" id="presetTabExport" onclick="tooltip('Export Perks', null, 'update')" role="tab">
-							<a>Export</a>
-						</li>
-						<li class="tabNotEnabled" id="presetTabImport" onclick="tooltip('Import Perks', null, 'update')" role="tab">
-							<a>Import</a>
-						</li>
-				</ul>
+				<fieldset class="nav nav-tabs nav-justified" id="portalPresetsTabs">
+						<legend>Perk Preset</legend>
+						<label class="tabNotSelected" id="presetTab1">
+							<input type="radio" name="perkPreset" value="1" onclick="presetTab(1, true)"> <span id="presetTab1Text">Preset 1</span>
+						</label>
+						<label class="tabNotSelected" id="presetTab2">
+							<input type="radio" name="perkPreset" value="2" onclick="presetTab(2, true)"> <span id="presetTab2Text">Preset 2</span>
+						</label>
+						<label class="tabNotSelected" id="presetTab3">
+							<input type="radio" name="perkPreset" value="3" onclick="presetTab(3, true)"> <span id="presetTab3Text">Preset 3</span>
+						</label>
+						<button class="tabNotEnabled" id="presetTabSave" onclick="savePerkPreset()">Save</button>
+						<button class="tabNotEnabled" id="presetTabLoad" onclick="loadPerkPreset()">Load</button>
+						<button class="tabNotEnabled" id="presetTabRename" onclick="renamePerkPreset(true)">Rename</button>
+						<button class="tabNotEnabled" id="presetTabExport" onclick="tooltip('Export Perks', null, 'update')">Export</button>
+						<button class="tabNotEnabled" id="presetTabImport" onclick="tooltip('Import Perks', null, 'update')">Import</button>
+				</fieldset>
 			</div>
 				<div id="pnumTabs" class="numTabs">
-					<ul class="nav nav-tabs nav-justified" id="portalTabs" aria-label="Buy Amount">
-						<li class="tabNotSelected" id="ptab1" onclick="numTab(1, true)" role="tab">
-							<a id="ptab1Text">+1</a>
-						</li>
-						<li  class="tabNotSelected" id="ptab2" onclick="numTab(2, true)" role="tab">
-							<a id="ptab2Text">+10</a>
-						</li>
-						<li  class="tabNotSelected" id="ptab3" onclick="numTab(3, true)" role="tab">
-							<a id="ptab3Text">+25</a>
-						</li>
-						<li  class="tabNotSelected" id="ptab4" onclick="numTab(4, true)" role="tab">
-							<a id="ptab4Text">+100</a>
-						</li>
-						<li  class="tabNotSelected" id="ptab5" onclick="tooltip('Custom', null, 'update', true)" role="tab">
-							<a id="ptab5Text">Custom</a>
-						</li>
-						<li class="tabNotSelected" id="ptab6" onclick="numTab(6, true)" role="tab" >
-							<a id="ptab6Text">Max</a>
-						</li>
-						<li class="tabNotSelected pointer" id="ptabInfo" onclick="toggleSetting('detailedPerks', null, true)" role="tab">
-							<a id="ptabInfoText">More Info</a>
-						</li>
-						<li id="ptabRemove" style="display: none" onclick="toggleRemovePerks()" role="tab">
-							<a id="ptabRemoveText">Remove</a>
-						</li>
-					</ul>
+					<fieldset class="nav nav-tabs nav-justified" id="portalTabs">
+						<legend>Perk Buy Amount</legend>
+						<label class="tabNotSelected" id="ptab1">
+							<input type="radio" name="perkBuyAmount" value="1" onclick="numTab(1, true)"> <span id="ptab1Text">+1</span>
+						</label>
+						<label class="tabNotSelected" id="ptab2">
+							<input type="radio" name="perkBuyAmount" value="2" onclick="numTab(2, true)"> <span id="ptab2Text">+10</span>
+						</label>
+						<label class="tabNotSelected" id="ptab3">
+							<input type="radio" name="perkBuyAmount" value="3" onclick="numTab(3, true)"> <span id="ptab3Text">+25</span>
+						</label>
+						<label class="tabNotSelected" id="ptab4">
+							<input type="radio" name="perkBuyAmount" value="4" onclick="numTab(4, true)"> <span id="ptab4Text">+100</span>
+						</label>
+						<label class="tabNotSelected" id="ptab5">
+							<input type="radio" name="perkBuyAmount" value="5" onclick="tooltip('Custom', null, 'update', true)"> <span id="ptab5Text">Custom</span>
+						</label>
+						<label class="tabNotSelected" id="ptab6">
+							<input type="radio" name="perkBuyAmount" value="6" onclick="numTab(6, true)"> <span id="ptab6Text">Max</span>
+						</label>
+						<button class="tabNotSelected pointer" id="ptabInfo" onclick="toggleSetting('detailedPerks', null, true)">
+							<span id="ptabInfoText">More Info</span>
+						</button>
+						<button id="ptabRemove" style="display: none" onclick="toggleRemovePerks()">
+							<span id="ptabRemoveText">Remove</span>
+						</button>
+					</fieldset>
 				</div>		
 				<div id="portalUpgradesHere" class="niceScroll"></div>
 			</div>

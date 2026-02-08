@@ -2504,6 +2504,11 @@ function getPsString(what, rawNum) {
 	}
 	if (rawNum) return currentCalc;
 	textString += "</tbody></table>";
+	if (usingScreenReader) {
+		var resName = what.charAt(0).toUpperCase() + what.slice(1);
+		screenReaderAssert(resName + " per second: " + prettify(currentCalc));
+		return;
+	}
 	game.global.lockTooltip = false;
 	tooltip('confirm', null, 'update', textString, "getPsString('" + what + "')", what.charAt(0).toUpperCase() + what.substr(1, what.length) + " Per Second", "Refresh", true);
 }
@@ -3559,6 +3564,10 @@ function getMaxResources(what) {
 		textString += "<tr><td class='bdTitle'>Heirloom (Shield)</td><td class='bdPercent'>+ " + hatAmt + "</td><td class='bdNumber'>" + prettify(currentCalc) + "</td></tr>";
 	}
 	textString += "</tbody></table>";
+	if (usingScreenReader) {
+		screenReaderAssert("Max " + what + ": " + prettify(currentCalc) + ". " + structure + ": " + structureObj.owned);
+		return;
+	}
 	game.global.lockTooltip = false;
 	tooltip('confirm', null, 'update', textString, "getMaxResources('" + what + "')", "Max " + what, "Refresh", true);
 }
@@ -4806,6 +4815,7 @@ function resetGame(keepPortal, resetting) {
 		if (game.global.autoUpgradesAvailable) document.getElementById("autoUpgradeBtn").style.display = "block";
 		if (game.global.autoStorageAvailable) {
 			document.getElementById("autoStorageBtn").style.display = "block";
+			ensureSRInfoButton("autoStorageBtn");
 			toggleAutoStorage(true);
 		}
 		game.portal.Coordinated.currentSend = 1;
@@ -5180,7 +5190,7 @@ function postMessages(){
         var log = document.getElementById("log");
         var needsScroll = ((log.scrollTop + 10) > (log.scrollHeight - log.clientHeight));
         var pendingMessages = pendingLogs.all.join('');
-        log.innerHTML += pendingMessages;
+        log.insertAdjacentHTML('beforeend', pendingMessages);
         pendingLogs.all = [];
         for (var item in pendingLogs){
             if (item == "all" || item == "RAF") continue;
@@ -5358,6 +5368,9 @@ function numTab(what, p) {
 		const thisTab = document.getElementById(tabType + x);
 		if (what === x) thisTab.className = thisTab.className.replace('tabNotSelected', 'tabSelected');
 		else thisTab.className = thisTab.className.replace('tabSelected', 'tabNotSelected');
+		// Sync radio button checked state for screen reader layout
+		var radio = thisTab.querySelector('input[type="radio"]');
+		if (radio) radio.checked = (what === x);
 		if (x === 5) continue;
 		switch (x) {
 			case 1:

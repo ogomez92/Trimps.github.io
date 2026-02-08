@@ -31,7 +31,7 @@ if (typeof kongregate === 'undefined' && document.getElementById("boneBtn") !== 
 if (typeof usingScreenReader === 'undefined'){
 	var usingScreenReader = false;
 }
-var srTooltipMode = "click"
+var srTooltipMode = "button"
 document.getElementById("versionNumber").innerHTML = game.global.stringVersion;
 
 var autoSaveTimeout;
@@ -1228,6 +1228,7 @@ function load(saveString, autoLoad, fromPf) {
 	}
 	if (game.global.autoStorageAvailable){
 		document.getElementById("autoStorageBtn").style.display = "block";
+		ensureSRInfoButton("autoStorageBtn");
 		toggleAutoStorage(true);
 	}
 	unlockFormation("all");
@@ -3553,6 +3554,9 @@ function presetTab(tabNum){
 	swapClass('tab', 'tabSelected', document.getElementById('presetTab' + tabNum));
 	if (selectedPreset > 0) swapClass('tab', 'tabNotSelected', document.getElementById('presetTab' + selectedPreset));
 	selectedPreset = tabNum;
+	// Sync radio button for screen reader layout
+	var radio = document.querySelector('input[name="perkPreset"][value="' + tabNum + '"]');
+	if (radio) radio.checked = true;
 }
 
 function resetPresets(){
@@ -3565,6 +3569,9 @@ function resetPresets(){
 		var preset = presetGroup["perkPreset" + x];
 		swapClass('tab', 'tabNotSelected', document.getElementById('presetTab' + x));
 		document.getElementById('presetTab' + x + 'Text').innerHTML = (preset.Name) ? preset.Name : "Preset " + x;
+		// Clear radio button for screen reader layout
+		var radio = document.querySelector('input[name="perkPreset"][value="' + x + '"]');
+		if (radio) radio.checked = false;
 	}
 }
 
@@ -4949,6 +4956,9 @@ function buildBuilding(what, amt = 1) {
 	const building = game.buildings[what];
 	if (building.owned === 0 && typeof building.first !== 'undefined') building.first();
 	building.owned += amt;
+	if (usingScreenReader && game.global.playerGathering === 'buildings') {
+		screenReaderAssert("Built " + (amt > 1 ? amt + " " : "") + what + ", " + building.owned + " owned");
+	}
 	let toIncrease;
 	checkAchieve('housing', what);
 
@@ -18035,8 +18045,10 @@ function toggleAutoStructure(noChange, forceOff){
 	var setting = getAutoStructureSetting();
 	if (!noChange) setting.enabled = !setting.enabled;
 	var btnElem = document.getElementById('autoStructureBtn');
-	if (bwRewardUnlocked("AutoStructure") && !forceOff)
+	if (bwRewardUnlocked("AutoStructure") && !forceOff){
 		btnElem.style.display = 'block';
+		ensureSRInfoButton("autoStructureBtn");
+	}
 	else{
 		btnElem.style.display = 'none';
 		return;
@@ -20569,13 +20581,11 @@ function makeAccessibleTooltip(elemID, args) {
 				if (callback) { callback() }
 			}
 		}
+		// Store args on element so info button can be created later if element is initially hidden
+		elem._srTooltipArgs = args;
 		// Separate info buttons
-		if (srTooltipMode == "button" && elem.style.visibility !== "hidden" && elem.style.display !== "none") {
-			let infoElem = document.createElement("div");
-			infoElem.innerText = "Info";
-			infoElem.className = "visually-hidden SRinfoButton"
-			infoElem.addEventListener("click", function (event) { keyTooltip({key: "?"}, ...args) } );
-			elem.insertAdjacentElement("afterend", infoElem);
+		if (srTooltipMode == "button") {
+			createSRInfoButton(elem, args);
 		}
 		else if (srTooltipMode == "click") { // remove all added info buttons (if they exist) when using click mode
 			document.querySelectorAll(".SRinfoButton").forEach((elem) => {elem.remove()})
@@ -20587,6 +20597,35 @@ function makeAccessibleTooltip(elemID, args) {
 			elem.addEventListener("onmouseout", function (event)  { tooltip("hide"); });
 		}
 	}
+}
+
+function createSRInfoButton(elem, args) {
+	if (!usingScreenReader || srTooltipMode !== "button") return;
+	if (elem.style.visibility === "hidden" || elem.style.display === "none") return;
+	// Don't create duplicate info buttons
+	if (elem.nextElementSibling && elem.nextElementSibling.classList.contains("SRinfoButton")) return;
+	let infoElem = document.createElement("span");
+	let label = args[0] + " info";
+	infoElem.innerText = label;
+	infoElem.setAttribute("role", "button");
+	infoElem.setAttribute("tabindex", "0");
+	infoElem.setAttribute("aria-label", label);
+	infoElem.className = "visually-hidden SRinfoButton";
+	infoElem.addEventListener("click", function (event) { keyTooltip({key: "?"}, ...args) });
+	infoElem.addEventListener("keydown", function (event) {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			keyTooltip({key: "?"}, ...args);
+		}
+	});
+	elem.insertAdjacentElement("afterend", infoElem);
+}
+
+function ensureSRInfoButton(elemID) {
+	if (!usingScreenReader || srTooltipMode !== "button") return;
+	var elem = document.getElementById(elemID);
+	if (!elem || !elem._srTooltipArgs) return;
+	createSRInfoButton(elem, elem._srTooltipArgs);
 }
 
 function keyTooltip(keyEvent, what, isItIn, event, textString, attachFunction, numCheck, renameBtn, noHide, hideCancel, ignoreShift){
