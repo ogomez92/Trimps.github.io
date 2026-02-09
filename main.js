@@ -10994,6 +10994,10 @@ function mapsSwitch(updateOnly, fromRecycle) {
             recycleBtn.style.visibility = "visible";
 			if (currentMapObj.noRecycle) recycleBtn.innerHTML = "Abandon Map";
 		}
+		if (usingScreenReader){
+			var focusTarget = document.getElementById("advMapsPreset1");
+			if (focusTarget) setTimeout(function(){ focusTarget.focus(); }, 100);
+		}
 	}
 	else if (game.global.mapsActive) {
 		//Switching to maps
@@ -11115,17 +11119,29 @@ function selectMap(mapId, force) {
     map = game.global.mapsOwnedArray[map];
 	if (!map) return;
     document.getElementById("selectedMapName").innerHTML = map.name;
-	document.getElementById("mapStatsSize").innerHTML = (Math.floor(map.size));
-	document.getElementById("mapStatsDifficulty").innerHTML = Math.floor(map.difficulty * 100) + "%";
-	document.getElementById("mapStatsLoot").innerHTML = Math.floor(map.loot * 100) + "%";
-	document.getElementById("mapStatsItems").innerHTML = (map.location == "Void") ? "&nbsp;" : addSpecials(true, true, map);
-	document.getElementById("mapStatsResource").innerHTML = game.mapConfig.locations[map.location].resourceType;
+	var sizeElem = document.getElementById("mapStatsSize");
+	sizeElem.innerHTML = (Math.floor(map.size));
+	sizeElem.setAttribute("aria-label", "Size " + Math.floor(map.size));
+	var diffElem = document.getElementById("mapStatsDifficulty");
+	diffElem.innerHTML = Math.floor(map.difficulty * 100) + "%";
+	diffElem.setAttribute("aria-label", "Difficulty " + Math.floor(map.difficulty * 100) + "%");
+	var lootElem = document.getElementById("mapStatsLoot");
+	lootElem.innerHTML = Math.floor(map.loot * 100) + "%";
+	lootElem.setAttribute("aria-label", "Loot " + Math.floor(map.loot * 100) + "%");
+	var itemsElem = document.getElementById("mapStatsItems");
+	itemsElem.innerHTML = (map.location == "Void") ? "&nbsp;" : addSpecials(true, true, map);
+	itemsElem.setAttribute("aria-label", "Items " + ((map.location == "Void") ? "none" : addSpecials(true, true, map)));
+	var resourceElem = document.getElementById("mapStatsResource");
+	resourceElem.innerHTML = game.mapConfig.locations[map.location].resourceType;
+	resourceElem.setAttribute("aria-label", "Resource " + game.mapConfig.locations[map.location].resourceType);
 	if (typeof game.global.mapsOwnedArray[getMapIndex(game.global.lookingAtMap)] !== 'undefined') {
 		var prevSelected = document.getElementById(game.global.lookingAtMap);
 		prevSelected.className = prevSelected.className.replace("mapElementSelected","mapElementNotSelected");
+		prevSelected.setAttribute("aria-checked", "false");
 	}
 	var currentSelected = document.getElementById(mapId);
 	currentSelected.className = currentSelected.className.replace("mapElementNotSelected", "mapElementSelected");
+	currentSelected.setAttribute("aria-checked", "true");
     game.global.lookingAtMap = mapId;
     document.getElementById("selectMapBtn").innerHTML = "Run Map";
     document.getElementById("selectMapBtn").style.visibility = "visible";
@@ -17187,6 +17203,7 @@ function updateImports(which) {
 		count++;
 		if (usingScreenReader && which == 0) {
 			var row = elem.insertRow();
+			row.id = item;
 			var cell = row.insertCell();
 			if (game.unlocks.imps[item]) {
 				cell.innerHTML = item + " - " + badGuy.dropDesc + " (Owned)";

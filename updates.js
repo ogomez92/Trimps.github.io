@@ -6073,9 +6073,16 @@ function unlockMap(what) { //what here is the array index
 		}
 	}
 	else abbrev = ((abbrev) ? getMapSpecTag(abbrev) : "");
-	let tagName = (usingScreenReader) ? 'li' : 'div'
-	if (game.options.menu.extraStats.enabled) elem.innerHTML = '<' + tagName + tooltip + ' class="' + btnClass + '" id="' + item.id + '" onclick="selectMap(\'' + item.id + '\')"><div class="onMapIcon"><span class="' + getMapIcon(item) + '"></span></div><div class="thingName onMapName">' + item.name + '</div><br/><span class="thingOwned mapLevel"><span class="stackedVoids">' + ((item.stacked) ? "(x" + (item.stacked + 1) + ") " : "") + '</span>Level ' + level + abbrev + '</span><br/><span class="onMapStats"><span class="icomoon icon-gift2"></span>' + Math.floor(item.loot * 100) + '% </span><span class="icomoon icon-cube2"></span>' + item.size + ' <span class="icon icon-warning"></span>' + Math.floor(item.difficulty * 100) + '%</' +tagName +'>' + elem.innerHTML;
-	else elem.innerHTML = '<' + tagName + tooltip + ' class="' + btnClass + '" id="' + item.id + '" onclick="selectMap(\'' + item.id + '\')"><span class="thingName">' + item.name + '</span><br/><span class="thingOwned mapLevel"><span class="stackedVoids">' + ((item.stacked) ? "(x" + (item.stacked + 1) + ") " : "") + '</span>Level ' + level + abbrev + '</span></'+ tagName + '>' + elem.innerHTML;
+	let tagName = 'div'
+	var isSelected = (item.id == game.global.lookingAtMap || item.id == game.global.currentMapId);
+	var radioAttrs = ' role="radio" aria-checked="' + isSelected + '" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectMap(\'' + item.id + '\')}"';
+	if (game.options.menu.extraStats.enabled){
+		var lootLabel = (usingScreenReader) ? 'Loot ' : '<span class="icomoon icon-gift2"></span>';
+		var sizeLabel = (usingScreenReader) ? ' Size ' : '<span class="icomoon icon-cube2"></span>';
+		var diffLabel = (usingScreenReader) ? ' Difficulty ' : '<span class="icon icon-warning"></span>';
+		elem.innerHTML = '<' + tagName + tooltip + radioAttrs + ' class="' + btnClass + '" id="' + item.id + '" onclick="selectMap(\'' + item.id + '\')"><div class="onMapIcon"><span class="' + getMapIcon(item) + '"></span></div><div class="thingName onMapName">' + item.name + '</div><br/><span class="thingOwned mapLevel"><span class="stackedVoids">' + ((item.stacked) ? "(x" + (item.stacked + 1) + ") " : "") + '</span>Level ' + level + abbrev + '</span><br/><span class="onMapStats">' + lootLabel + Math.floor(item.loot * 100) + '% ' + sizeLabel + item.size + ' ' + diffLabel + Math.floor(item.difficulty * 100) + '%</span></' +tagName +'>' + elem.innerHTML;
+	}
+	else elem.innerHTML = '<' + tagName + tooltip + radioAttrs + ' class="' + btnClass + '" id="' + item.id + '" onclick="selectMap(\'' + item.id + '\')"><span class="thingName">' + item.name + '</span><br/><span class="thingOwned mapLevel"><span class="stackedVoids">' + ((item.stacked) ? "(x" + (item.stacked + 1) + ") " : "") + '</span>Level ' + level + abbrev + '</span></'+ tagName + '>' + elem.innerHTML;
 	if (item.id == game.global.currentMapId) swapClass("mapElement", "mapElementSelected", document.getElementById(item.id));
 }
 
