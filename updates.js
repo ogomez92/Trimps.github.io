@@ -1402,6 +1402,26 @@ function tooltip(what, isItIn, event, textString, attachFunction, numCheck, rena
 	}
 	if (what == "Export"){
 		var saveText = save(true);
+		// Screenreader: auto-download file, skip the modal
+		if (usingScreenReader) {
+			var saveName = 'Trimps Save P' + game.global.totalPortals;
+			if (game.global.universe == 2 || game.global.totalRadPortals > 0){
+				saveName += " " + game.global.totalRadPortals + " U" + game.global.universe;
+			}
+			saveName += " Z" + game.global.world;
+			var a = document.createElement('a');
+			a.download = saveName + '.txt';
+			if (Blob !== null) {
+				var blob = new Blob([saveText], {type: 'text/plain'});
+				a.href = URL.createObjectURL(blob);
+			} else {
+				a.href = 'data:text/plain,' + encodeURIComponent(saveText);
+			}
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			return;
+		}
 		if (textString){
 			tooltipText = textString + "<br/><br/><textarea id='exportArea' spellcheck='false' style='width: 100%' rows='5'>" + saveText + "</textarea>";
 			what = "Thanks!";
@@ -5190,6 +5210,15 @@ function postMessages(){
         var log = document.getElementById("log");
         var needsScroll = ((log.scrollTop + 10) > (log.scrollHeight - log.clientHeight));
         var pendingMessages = pendingLogs.all.join('');
+        // Announce new messages via a separate live region so log DOM changes never trigger SR
+        if (usingScreenReader) {
+            var announceDiv = document.getElementById('srLogAnnounce');
+            if (announceDiv) {
+                var temp = document.createElement('div');
+                temp.innerHTML = pendingMessages;
+                announceDiv.textContent = temp.textContent;
+            }
+        }
         log.insertAdjacentHTML('beforeend', pendingMessages);
         pendingLogs.all = [];
         for (var item in pendingLogs){
@@ -6244,6 +6273,20 @@ function updateButtonColor(what, canAfford, isJob) {
 	}
 	else
 		swapClass("thingColor", "thingColorCanNotAfford", elem);
+	// Screenreader: wrap affordable items in h1 for heading navigation
+	if (usingScreenReader) {
+		if (canAfford && elem.parentElement && elem.parentElement.tagName !== 'H1') {
+			var h1 = document.createElement('h1');
+			h1.style.margin = '0';
+			h1.style.fontSize = 'inherit';
+			elem.parentElement.insertBefore(h1, elem);
+			h1.appendChild(elem);
+		} else if (!canAfford && elem.parentElement && elem.parentElement.tagName === 'H1') {
+			var h1 = elem.parentElement;
+			h1.parentElement.insertBefore(elem, h1);
+			h1.remove();
+		}
+	}
 }
 
 function getWarpstationColor() {
@@ -7591,6 +7634,22 @@ if (elem == null) {
   else
   	className = className[0] + newClass;
   elem.className = className;
+  // Screenreader: mark/unmark the active cell with * and aria-current live region
+  if (usingScreenReader && prefix === 'cellColor') {
+	if (newClass === 'cellColorCurrent') {
+		elem.setAttribute('aria-current', 'true');
+		if (!elem.querySelector('.srCurrentMarker')) {
+			var marker = document.createElement('span');
+			marker.className = 'srCurrentMarker';
+			marker.textContent = '* ';
+			elem.prepend(marker);
+		}
+	} else {
+		elem.removeAttribute('aria-current');
+		var marker = elem.querySelector('.srCurrentMarker');
+		if (marker) marker.remove();
+	}
+  }
 }
 
 function goRadial(elem, currentSeconds, totalSeconds, frameTime) {

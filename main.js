@@ -5525,10 +5525,22 @@ function buyUpgrade(what, confirmed, noTip, heldCtrl) {
 	}
 	var upgradesHereElem = document.getElementById("upgradesHere")
 	var removeElem = document.getElementById(what);
-	if (removeElem) upgradesHereElem.removeChild(removeElem);
+	if (removeElem) {
+		if (usingScreenReader && removeElem.parentElement && removeElem.parentElement.tagName === 'H1') {
+			removeElem.parentElement.remove();
+		} else {
+			upgradesHereElem.removeChild(removeElem);
+		}
+	}
 	if (usingScreenReader){
 		var tooltipElem = document.getElementById('srTooltip' + what);
-		if (tooltipElem) upgradesHereElem.removeChild(tooltipElem);
+		if (tooltipElem) {
+			if (tooltipElem.parentElement && tooltipElem.parentElement.tagName === 'H1') {
+				tooltipElem.parentElement.remove();
+			} else {
+				upgradesHereElem.removeChild(tooltipElem);
+			}
+		}
 	}
     if (!noTip) tooltip("hide");
 	return true;
@@ -6806,6 +6818,7 @@ function setVoidBuffTooltip(){
 	var stackCount = "";
 	var elem = document.getElementById('voidBuff');
 	elem.innerHTML = makeIconEffectHTML(buff.title, buff.text, buff.icon, "badBadge voidBadge")
+	screenReaderAssert(buff.title + " activated");
 }
 
 var heirloomsShown = false;
@@ -10544,6 +10557,90 @@ function drawGrid(maps) {
 	else if (!maps && game.global.spireActive) className = 'spire';
 	else if (maps && map.location === 'Darkness') className = 'blackMap';
 
+	// Screenreader: render world grid as an accessible table
+	if (usingScreenReader && !maps) {
+		let tableHTML = `<table role="grid" aria-label="World Zone ${game.global.world}">`;
+		let counter = 0;
+		for (let i = 0; i < rows; i++) {
+			const start = i * cols + 1;
+			const end = start + cols - 1;
+			tableHTML += `<tr><th scope="row">${start}\u2013${end}</th>`;
+			for (let x = 0; x < cols; x++) {
+				const cell = game.global.gridArray[counter];
+				const id = `cell${counter}`;
+				let cellClasses = ['battleCell', 'cellColorNotBeaten'];
+				let srExtra = '';
+
+				if (cell.u2Mutation && cell.u2Mutation.length) {
+					for (let y = 0; y < cell.u2Mutation.length; y++) cellClasses.push(cell.u2Mutation[y]);
+					cellClasses.push('mutatedCell');
+				} else if (cell.mutation) cellClasses.push(cell.mutation);
+				if (cell.vm) cellClasses.push(cell.vm);
+				if (cell.empowerment) {
+					cellClasses.push(`empoweredCell${cell.empowerment}`);
+					srExtra += ` Token of ${cell.empowerment}`;
+				} else if (checkIfSpireWorld() && game.global.spireActive) cellClasses.push('spireCell');
+				if (cell.special === 'easterEgg') {
+					game.global.eggLoc = counter;
+					cellClasses.push('eggCell');
+					srExtra += ' Egg';
+				}
+				// Extract loot/item label from cell.text HTML (e.g. title='Metal')
+				if (cell.text) {
+					let labelMatch = cell.text.match(/title=["']([^"']+)["']/);
+					if (labelMatch) srExtra += ' ' + labelMatch[1];
+				}
+
+				tableHTML += `<td id="${id}" class="${cellClasses.join(' ')}">${cell.level}${srExtra}</td>`;
+				counter++;
+			}
+			tableHTML += '</tr>';
+		}
+		tableHTML += '</table>';
+		grid.className = '';
+		grid.innerHTML = tableHTML;
+		const eggCell = document.querySelector('.eggCell');
+		if (eggCell) eggCell.addEventListener('click', easterEggClicked);
+		return;
+	}
+
+	// Screenreader: render map grid as an accessible table
+	if (usingScreenReader && maps) {
+		const size = game.global.mapGridArray.length;
+		let tableHTML = `<table role="grid" aria-label="Map: ${map.name}, Level ${map.level}">`;
+		let counter = 0;
+		for (let i = 0; i < rows; i++) {
+			if (counter >= size) break;
+			const start = i * cols + 1;
+			const end = Math.min(start + cols - 1, size);
+			tableHTML += `<tr><th scope="row">${start}\u2013${end}</th>`;
+			for (let x = 0; x < cols; x++) {
+				if (counter >= size) break;
+				const cell = game.global.mapGridArray[counter];
+				const id = `mapCell${counter}`;
+				let cellClasses = ['battleCell', 'cellColorNotBeaten'];
+				let srExtra = '';
+
+				if (cell.name === 'Pumpkimp') { cellClasses.push('mapPumpkimp'); srExtra += ' Pumpkimp'; }
+				if (map.location === 'Void') cellClasses.push('voidCell');
+				if (cell.vm) cellClasses.push(cell.vm);
+				// Extract loot/item label from cell.text HTML (e.g. title='Metal')
+				if (cell.text) {
+					let labelMatch = cell.text.match(/title=["']([^"']+)["']/);
+					if (labelMatch) srExtra += ' ' + labelMatch[1];
+				}
+
+				tableHTML += `<td id="${id}" class="${cellClasses.join(' ')}">${cell.level}${srExtra}</td>`;
+				counter++;
+			}
+			tableHTML += '</tr>';
+		}
+		tableHTML += '</table>';
+		grid.className = '';
+		grid.innerHTML = tableHTML;
+		return;
+	}
+
 	const idText = maps ? 'mapCell' : 'cell';
 	let size = maps ? game.global.mapGridArray.length : 0;
 	let counter = 0;
@@ -10593,10 +10690,10 @@ function drawGrid(maps) {
 				}
 			}
 
-			html += `<li id="${id}" 
-						style="width:${width};padding-top:${paddingTop};padding-bottom:${paddingBottom};font-size:${fontSize};background:${background};background-color:${backgroundColor};" 
-						class="${className.join(' ')}" 
-						title="${title}" 
+			html += `<li id="${id}"
+						style="width:${width};padding-top:${paddingTop};padding-bottom:${paddingBottom};font-size:${fontSize};background:${background};background-color:${backgroundColor};"
+						class="${className.join(' ')}"
+						title="${title}"
 						aria-label="${title}"
 						role="${role}">
 						${innerHTML}
@@ -10713,6 +10810,7 @@ function recycleMap(map, fromMass, killVoid, noRefund) {
 	}
 	var loc = "mapsHere";
 	if (killVoid){
+		if (game.global.voidBuff) screenReaderAssert(voidBuffConfig[game.global.voidBuff].title + " ended");
 		game.global.voidBuff = "";
 		document.getElementById("voidBuff").innerHTML = "";
 	}
@@ -10844,6 +10942,7 @@ function mapsSwitch(updateOnly, fromRecycle) {
 		game.global.fighting = false;
         game.global.switchToMaps = false;
         game.global.switchToWorld = false;
+		if (game.global.voidBuff) screenReaderAssert(voidBuffConfig[game.global.voidBuff].title + " ended");
 		game.global.voidBuff = "";
         if (game.global.preMapsActive) {
             game.global.mapsActive = false;
@@ -16645,7 +16744,11 @@ function updateAntiStacks() {
 		const s = game.global.antiStacks === 1 ? '' : 's';
 		elemText = makeIconEffectHTML("Anticipation", `Your Trimps are dealing ${number}% extra damage for taking ${game.global.antiStacks} second${s} to ${verb}.`, "icon-target2", "antiBadge", false, game.global.antiStacks)
 	}
-	if (elem && elem.innerHTML != elemText) elem.innerHTML = elemText;
+	if (elem && elem.innerHTML != elemText) {
+		if (elemText && !elem.innerHTML) screenReaderAssert("Anticipation building");
+		else if (!elemText && elem.innerHTML) screenReaderAssert("Anticipation consumed");
+		elem.innerHTML = elemText;
+	}
 }
 
 function updateTitimp() {
@@ -16660,7 +16763,11 @@ function updateTitimp() {
 	}
 
 	const elem = document.getElementById('titimpBuff');
-	if (elem && elem.innerHTML != message) elem.innerHTML = message;
+	if (elem && elem.innerHTML != message) {
+		if (message && !elem.innerHTML) screenReaderAssert("Titimp activated, double damage");
+		else if (!message && elem.innerHTML) screenReaderAssert("Titimp expired");
+		elem.innerHTML = message;
+	}
 }
 
 function updateNomStacks(number) {
@@ -17078,21 +17185,32 @@ function updateImports(which) {
 		var badGuy = game.badGuys[item];
 		var elem = (badGuy.location == "World") ? world : maps;
 		count++;
-		var row = elem.insertRow();
-		var toRun = (which == 1) ? 'addToBundle' : 'selectImp';
-		toRun += '("' + item + '")';
-		if (game.unlocks.imps[item]){
-			row.className = 'importOwned';
+		if (usingScreenReader && which == 0) {
+			var row = elem.insertRow();
+			var cell = row.insertCell();
+			if (game.unlocks.imps[item]) {
+				cell.innerHTML = item + " - " + badGuy.dropDesc + " (Owned)";
+			} else {
+				var radioId = "importRadio_" + item;
+				cell.innerHTML = "<label><input type='radio' name='importSelect' id='" + radioId + "' value='" + item + "' onchange='selectImp(\"" + item + "\")'> " + item + " - " + badGuy.dropDesc + "</label>";
+			}
+		} else {
+			var row = elem.insertRow();
+			var toRun = (which == 1) ? 'addToBundle' : 'selectImp';
+			toRun += '("' + item + '")';
+			if (game.unlocks.imps[item]){
+				row.className = 'importOwned';
+			}
+			else
+			row.setAttribute('onclick', toRun);
+			row.id = (which == 1) ? item + "1" : item;
+			var name = row.insertCell();
+			name.className = "importPreviewName";
+			name.innerHTML = item;
+			var loot = row.insertCell();
+			loot.className = "importPreviewLoot";
+			loot.innerHTML = badGuy.dropDesc;
 		}
-		else
-		row.setAttribute('onclick', toRun);
-		row.id = (which == 1) ? item + "1" : item;
-		var name = row.insertCell();
-		name.className = "importPreviewName";
-		name.innerHTML = item;
-		var loot = row.insertCell();
-		loot.className = "importPreviewLoot";
-		loot.innerHTML = badGuy.dropDesc;
 	}
 }
 
@@ -17438,35 +17556,46 @@ function displaySingleRunBonuses(){
 		document.getElementById('singleRunBonuses').style.marginTop = (anyPortals) ? "0" : "-2.5%";
 		var btnClass;
 		var btnText;
+		var disabled = false;
 		if (bonus.owned){
 			 btnClass = 'boneBtnStateOff';
 			 btnText = 'Active!';
+			 disabled = true;
 		}
 		else {
 			if (item == "heliumy" && game.global.runningChallengeSquared){
 				btnClass = 'boneBtnStateOff';
-				btnText = "Disabled on C<sup>" + ((game.global.universe == 1) ? 2 : 3) + "</sup>";
+				btnText = "Disabled on C" + ((game.global.universe == 1) ? 2 : 3);
+				disabled = true;
 			}
 			else if (item == "quickTrimps" && (game.global.challengeActive == "Trapper" || game.global.challengeActive == "Trappapalooza")){
 				btnClass = 'boneBtnStateOff';
 				btnText = "Disabled on " + game.global.challengeActive;
+				disabled = true;
 			}
 			else{
-				if (game.global.b < bonus.cost)
-					btnClass = 'boneBtnStateOff'
-				else 
+				if (game.global.b < bonus.cost){
+					btnClass = 'boneBtnStateOff';
+					disabled = true;
+				}
+				else
 					btnClass = 'boneBtnStateOn';
 				btnText = bonus.name + " (" + bonus.cost + " bones)";
 			}
 		}
-		html += "<div class='boneBtn " + btnClass + " pointer noselect' id='" + item + "PurchaseBtn'";
+		var tag = usingScreenReader ? 'button' : 'div';
+		html += "<" + tag + " class='boneBtn " + btnClass + " pointer noselect' id='" + item + "PurchaseBtn'";
+		if (usingScreenReader && disabled) html += " disabled";
 		if (btnClass == 'boneBtnStateOn'){
 			var confText = bonus.confirmation;
-			html += " onclick='tooltip(\"Confirm Purchase\", null, \"update\", \"" + confText + "\", \"purchaseSingleRunBonus(&#39;" + item + "&#39;)\", 20)'>" + btnText + "</div>";
+			if (usingScreenReader)
+				html += " onclick='purchaseSingleRunBonus(\"" + item + "\")'>" + btnText + ", " + bonus.text + "</" + tag + ">";
+			else
+				html += " onclick='tooltip(\"Confirm Purchase\", null, \"update\", \"" + confText + "\", \"purchaseSingleRunBonus(&#39;" + item + "&#39;)\", 20)'>" + btnText + "</div>";
 		}
 		else
-			html += ">" + btnText + "</div>";
-		html += bonus.text;
+			html += ">" + btnText + (usingScreenReader ? ", " + bonus.text : "") + "</" + tag + ">";
+		if (!usingScreenReader) html += bonus.text;
 		html += "</div>";
 	}
 	document.getElementById("singleRunBonuses").innerHTML = html;
@@ -17480,34 +17609,44 @@ function displayPermaBoneBonuses(){
 		var btnClass;
 		var btnText;
 		var desc;
+		var disabled = false;
 		if (item == "voidMaps" && game.global.totalPortals < 1){
 			btnClass = 'boneBtnStateOff';
-			btnText = '<span class="icomoon icon-lock"></span>';
-			desc = "Locked until your first Portal!"
+			btnText = usingScreenReader ? 'Locked' : '<span class="icomoon icon-lock"></span>';
+			desc = "Locked until your first Portal!";
+			disabled = true;
 		}
 		else if (bonus.owned == 10){
 			 btnClass = 'boneBtnStateOff';
 			 btnText = bonus.name + ' (10/10)';
 			 desc = bonus.text;
+			 disabled = true;
 		}
 		else {
 			var cost = getNextPermaBonePrice(item);
 			desc = bonus.text;
-			if (game.global.b < cost)
-				btnClass = 'boneBtnStateOff'
-			else 
+			if (game.global.b < cost){
+				btnClass = 'boneBtnStateOff';
+				disabled = true;
+			}
+			else
 				btnClass = 'boneBtnStateOn';
-				btnText = bonus.name + " (" + bonus.owned +  "/10, " + cost + " Bones)";
+			btnText = bonus.name + " (" + bonus.owned +  "/10, " + cost + " Bones)";
 		}
-		html += "<div class='boneBtn " + btnClass + " pointer noselect' id='" + item + "PurchaseBtn'";
+		var tag = usingScreenReader ? 'button' : 'div';
+		html += "<" + tag + " class='boneBtn " + btnClass + " pointer noselect' id='" + item + "PurchaseBtn'";
+		if (usingScreenReader && disabled) html += " disabled";
 		if (btnClass == 'boneBtnStateOn'){
 			var confText = bonus.confirmation;
 			var cost = getNextPermaBonePrice(item);
-			html += " onclick='tooltip(\"Confirm Purchase\", null, \"update\", \"" + confText + "\", \"purchasePermaBoneBonus(&#39;" + item + "&#39;)\"," + cost + ")'>" + btnText + "</div>";
+			if (usingScreenReader)
+				html += " onclick='purchasePermaBoneBonus(\"" + item + "\")'>" + btnText + ", " + desc + "</" + tag + ">";
+			else
+				html += " onclick='tooltip(\"Confirm Purchase\", null, \"update\", \"" + confText + "\", \"purchasePermaBoneBonus(&#39;" + item + "&#39;)\"," + cost + ")'>" + btnText + "</div>";
 		}
 		else
-			html += ">" + btnText + "</div>";
-		html += desc;
+			html += ">" + btnText + (usingScreenReader ? ", " + desc : "") + "</" + tag + ">";
+		if (!usingScreenReader) html += desc;
 		html += "</div>";
 	}
 	document.getElementById("permaBoneBonuses").innerHTML = html;
@@ -17703,9 +17842,11 @@ var sugarRush = {
 	enableIcon: function () {
 		var elem = this.getIconElement();
 		if (!elem){
-			document.getElementById('goodGuyName').innerHTML += ' <span class="badge antiBadge sugarRushBadge" id="sugarRushBuff" onmouseover="tooltip(\'Sugar Rush\', \'customText\', event, sugarRush.tooltipText())" onmouseout="tooltip(\'hide\')"><span class="' + this.icon + '"></span></span>';			
+			document.getElementById('goodGuyName').innerHTML += ' <span class="badge antiBadge sugarRushBadge" id="sugarRushBuff" onmouseover="tooltip(\'Sugar Rush\', \'customText\', event, sugarRush.tooltipText())" onmouseout="tooltip(\'hide\')"><span class="' + this.icon + '"></span></span>';
+			screenReaderAssert("Sugar Rush activated, " + this.getAttackStrength() + "X attack");
 			return;
 		}
+		if (!this.iconEnabled) screenReaderAssert("Sugar Rush activated, " + this.getAttackStrength() + "X attack");
 		elem.style.display = 'inline-block';
 		this.iconEnabled = true;
 	},
@@ -17714,6 +17855,7 @@ var sugarRush = {
 		if (!elem)
 			return;
 		elem.style.display = 'none';
+		if (this.iconEnabled) screenReaderAssert("Sugar Rush expired");
 		this.iconEnabled = false;
 	},
 	tick: function () {
@@ -17818,6 +17960,7 @@ function activateTurkimpPowers() {
 	game.global.turkimpTimer = timeToExpire;
 	if (game.talents.turkimp2.purchased) return;
 	document.getElementById("turkimpBuff").style.display = "block";
+	screenReaderAssert("Well Fed activated");
 	if (game.global.playerGathering) setGather(game.global.playerGathering);
 	var possibilities = [
 	"Yum, Turkimp! You eat some and put some in your pockets for later.",
@@ -17897,6 +18040,7 @@ function updateTurkimpTime(drawIcon = false) {
 	if (timeRemaining <= 0) {
 		game.global.turkimpTimer = 0;
 		document.getElementById('turkimpBuff').style.display = 'none';
+		screenReaderAssert("Well Fed expired");
 		if (game.global.playerGathering) setGather(game.global.playerGathering);
 		elem.innerHTML = '00:00';
 		return;
@@ -19933,6 +20077,11 @@ function gameLoop(makeUp, now) {
 	//every second
 	if (loops % 10 == 0){
 		runEverySecond(makeUp);
+	}
+	//every minute, grant a bone
+	if (loops % 600 == 0){
+		game.global.b++;
+		updateSkeleBtn();
 	}
 	//every 2 seconds
 	if (loops % 20 == 0){

@@ -134,7 +134,7 @@
 							</table>
 						</div>
 						<div id="purchaseContainerImports">
-							<button class="boneBtn boneBtnStateOn pointer noselect" id="importPurchaseBtn" aria-label="Purchase Exotic Import" onclick="tooltip('Confirm Purchase', null, 'update', 'You are about to purchase a new Exotic Import for 50 bones. This new Bad Guy will begin spawning in your next Zone or Map at an average of 3 spawns per 100 enemies. Is this what you wanted to do?', 'purchaseImport()', 50)"></button>
+							<button class="boneBtn boneBtnStateOn pointer noselect" id="importPurchaseBtn" aria-label="Purchase selected Exotic Import, 50 bones" onclick="purchaseImport()"></button>
 						</div>
 					</div>
 				</div>
@@ -142,7 +142,7 @@
 					<div class="boneBuyTitle">Other Goodies</div>
 						<div class="boostSpacer">
 						<div id="buyHeliumArea">
-							<button class="boneBtn boneBtnStateOn pointer noselect" id="heliumPurchaseBtn" onclick="tooltip('Confirm Purchase', null, 'update', 'You are about to purchase one Instant Portal for 100 bones. Your new Helium will appear in the View Perks menu at the bottom of the screen available for immediate spending, and your Respec will be refreshed. Is this what you wanted to do?', 'purchaseMisc(\'helium\')', 100)">
+							<button class="boneBtn boneBtnStateOn pointer noselect" id="heliumPurchaseBtn" onclick="purchaseMisc('helium')">
 								Buy Bone Portal (100 bones)
 							</button>
 							<div class="miscDesc">
@@ -154,7 +154,7 @@
 
 						</div>
 						<div id="buyHeirloomArea">
-							<button class="boneBtn boneBtnStateOn pointer noselect" id="heirloomPurchaseBtn" onclick="tooltip('Confirm Purchase', null, 'update', 'You are about to purchase one Heirloom for 30 bones. This will be created at a random rarity, and will be just like completing a Void Map at your highest ever Zone reached. Are you sure?', 'purchaseMisc(\'heirloom\')', 30)">
+							<button class="boneBtn boneBtnStateOn pointer noselect" id="heirloomPurchaseBtn" onclick="purchaseMisc('heirloom')">
 								Buy Heirloom (30 bones)
 							</button>
 							<div class="miscDesc">
@@ -278,7 +278,7 @@
 						</div>
 						<div class="col-xs-6">
 							<div class="maxCenter">
-								<h1><span id="trimpTitle" class="title">???</span></h1>												
+								<span id="trimpTitle" class="title">???</span>												
 							</div>
 						</div>
 						<div class="col-xs-3" style="padding-left: 0">
@@ -348,7 +348,8 @@
 							</div>
 						</div>
 					</div>
-					<div id="log" class="niceScroll" role="log" aria-live="polite" aria-label="Game log">
+					<div id="srLogAnnounce" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+					<div id="log" class="niceScroll" role="log" aria-live="off" aria-label="Game log">
 						<span class="StoryMessage message"><span class='glyphicon glyphicon-star'></span>A green shimmer erupts then disappears, and you hit the ground. You look pretty hungry...</span>
 					</div>		
 				</div>
@@ -369,7 +370,7 @@
 							<button id="autoTrapBtn" style="display: none" onclick="toggleAutoTrap()" class="pointer noselect colorDanger autoUpgradeBtn">AutoTraps Off</button>
 						</div>
 						<div class="col-xs-3">
-							<h1><button id="buildingsCollectBtn" onclick="setGather('buildings')" class="workBtn workColorOff pointer noselect">Build Buildings</button></h1>
+							<button id="buildingsCollectBtn" onclick="setGather('buildings')" class="workBtn workColorOff pointer noselect">Build Buildings</button>
 						</div>
 					</div>
 					<div class="queue niceScroll" id="buildingsQueue">
@@ -1429,28 +1430,28 @@
 	<div id="settingsRow">
 		<table id="settingsTable">
 			<tr>
-				<td class="btn btn-info" onclick="save(false, true)" role="button" tabindex="0">
+				<td class="btn btn-info" onclick="save(false, true)" role="link" tabindex="0">
 					Save <span id="saveIndicator"></span><span id="playFabIndicator"></span>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="button" tabindex="0">
+				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="link" tabindex="0">
 					<div>Export</div>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="button" tabindex="0">
+				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="link" tabindex="0">
 					<div>Import</div>
 				</td>
-				<td class="btn btn-success" onclick="toggleStats()" role="button" tabindex="0">
+				<td class="btn btn-success" onclick="toggleStats()" role="link" tabindex="0">
 					<div>Stats</div>
 				</td>
-				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="button" tabindex="0">
+				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="link" tabindex="0">
 					<div>Achieves</div>
 				</td>
-				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="button" tabindex="0">
+				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="link" tabindex="0">
 					<div id='settingsText'>Settings</div>
 				</td>
-				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="button" tabindex="0" aria-label="View Past Upgrades">
+				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="link" tabindex="0" aria-label="View Past Upgrades">
 					
 				</td>
-				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="button" tabindex="0">
+				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="link" tabindex="0">
 						V <span id="versionNumber"></span> | What's New 
 				</td>
 				<td  id="portalTimer" class="timerNotPaused" onclick="toggleSetting('pauseGame')" role="button" tabindex="0" >
