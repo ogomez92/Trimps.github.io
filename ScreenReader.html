@@ -314,20 +314,20 @@
 				<div id="logContainer">
 					<div class="btn-group btn-group-justified" id="logBtnGroup" role="group">
 						<div class="btn-group" role="group">
-							<button id="StoryFilter" onclick="filterMessage('Story')" class="btn btn-success logFlt">Story</button>
+							<label class="logFlt"><input type="checkbox" id="StoryFilter" checked onchange="filterMessage('Story')"> Story</label>
 						</div>
 						<div class="btn-group" role="group">
-							<button id="LootFilter" onclick="filterMessage('Loot')" class="btn btn-success logFlt">Loot</button>
+							<label class="logFlt"><input type="checkbox" id="LootFilter" checked onchange="filterMessage('Loot')"> Loot</label>
 						</div>
 						<div class="btn-group" role="group">
-							<button id="UnlocksFilter" onclick="filterMessage('Unlocks')" class="btn btn-success logFlt">Unlocks</button>
+							<label class="logFlt"><input type="checkbox" id="UnlocksFilter" checked onchange="filterMessage('Unlocks')"> Unlocks</label>
 						</div>
 						<div class="btn-group" role="group">
-							<button id="CombatFilter"  onclick="filterMessage('Combat')" class="btn btn-success logFlt">Combat</button>
+							<label class="logFlt"><input type="checkbox" id="CombatFilter" checked onchange="filterMessage('Combat')"> Combat</label>
 						</div>
 						<div id="logConfigHolder" class="btn-group" role="group">
 							<button aria-label="Configure Displayed Messages" id="logConfigBtn" onclick="tooltip('Message Config', null, 'update')" class="btn btn-default logFlt"><span class='glyphicon glyphicon-cog'></span></button>
-						</div>						
+						</div>
 					</div>
 					<div id="achievementTracker">
 						<div class="row">

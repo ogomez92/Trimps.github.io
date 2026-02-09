@@ -5129,8 +5129,8 @@ function message(messageString, type, lootIcon, extraClass, extraTag, htmlPrefix
 	if (!extraStyle) extraStyle = "";
 	else extraStyle = "; " + extraStyle;
 	if (usingScreenReader){
-		if (type == "Story") document.getElementById('srSumLastStory').innerHTML = "Z " + game.global.world + ": " + messageString;
-		if (type == "Combat") document.getElementById('srSumLastCombat').innerHTML = messageString;
+		if (type == "Story" && game.global.messages.Story.enabled) document.getElementById('srSumLastStory').innerHTML = "Z " + game.global.world + ": " + messageString;
+		if (type == "Combat" && game.global.messages.Combat.enabled) document.getElementById('srSumLastCombat').innerHTML = messageString;
 	}
 	if (messageLock && type !== "Notices"){
 		return;
@@ -5216,7 +5216,13 @@ function postMessages(){
             if (announceDiv) {
                 var temp = document.createElement('div');
                 temp.innerHTML = pendingMessages;
-                announceDiv.textContent = temp.textContent;
+                var visibleText = '';
+                for (var i = 0; i < temp.children.length; i++) {
+                    if (temp.children[i].style.display !== 'none') {
+                        visibleText += temp.children[i].textContent + ' ';
+                    }
+                }
+                announceDiv.textContent = visibleText.trim();
             }
         }
         log.insertAdjacentHTML('beforeend', pendingMessages);
@@ -5262,17 +5268,25 @@ function trimMessages(what){
 function filterMessage(what, updateOnly){ //send true for updateOnly
 	var log = document.getElementById("log");
 	var displayed = game.global.messages[what].enabled;
+	var btnElem = document.getElementById(what + "Filter");
+	if (btnElem == null) return;
+	var isCheckbox = (btnElem.type === 'checkbox');
 	if (!updateOnly){
-		displayed = (displayed) ? false : true;
+		if (isCheckbox) {
+			displayed = btnElem.checked;
+		} else {
+			displayed = !displayed;
+		}
 		game.global.messages[what].enabled = displayed;
 	}
 	var toChange = document.getElementsByClassName(what + "Message");
-	var btnText = (displayed) ? what : what + " off";
-	var btnElem = document.getElementById(what + "Filter");
-	if (btnElem == null) return;
-	btnElem.innerHTML = btnText;
-	btnElem.className = "";
-	btnElem.className = getTabClass(displayed);
+	if (isCheckbox) {
+		btnElem.checked = displayed;
+	} else {
+		btnElem.innerHTML = (displayed) ? what : what + " off";
+		btnElem.className = "";
+		btnElem.className = getTabClass(displayed);
+	}
 	displayed = (displayed) ? "block" : "none";
 	for (var x = 0; x < toChange.length; x++){
 		toChange[x].style.display = displayed;
