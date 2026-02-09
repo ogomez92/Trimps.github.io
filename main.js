@@ -4957,7 +4957,8 @@ function buildBuilding(what, amt = 1) {
 	if (building.owned === 0 && typeof building.first !== 'undefined') building.first();
 	building.owned += amt;
 	if (usingScreenReader && game.global.playerGathering === 'buildings') {
-		screenReaderAssert("Built " + (amt > 1 ? amt + " " : "") + what + ", " + building.owned + " owned");
+		if (!(what === 'Trap' && game.global.trapBuildToggled && building.owned % 100 !== 0))
+			screenReaderAssert("Built " + (amt > 1 ? amt + " " : "") + what + ", " + building.owned + " owned");
 	}
 	let toIncrease;
 	checkAchieve('housing', what);
@@ -6623,6 +6624,7 @@ function buyMap() {
 		game.resources.fragments.owned -= cost;
 		createMap(newLevel);
 		if (!game.global.currentMapId) selectMap(game.global.mapsOwnedArray[game.global.mapsOwnedArray.length - 1].id);
+		document.getElementById("selectMapBtn").focus();
 		return 1;
 	}
 	else message("You can't afford this map! You need " + prettify(cost) + " fragments but only have " + prettify(game.resources.fragments.owned) + ".", "Notices");

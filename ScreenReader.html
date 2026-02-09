@@ -185,7 +185,7 @@
 							</div>
 							<div class="row collectRow">
 								<div class="col-xs-6">
-									<button id="foodCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('food')">Gather</button>
+									<h5><button id="foodCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('food')">Gather</button></h5>
 								</div>
 								<div class="col-xs-6">
 									<button class="psText sizeSecRegular pointer noselect" id="foodPs" onclick="getPsString('food')">+0/sec</button>
@@ -206,7 +206,7 @@
 
 							<div class="row collectRow">
 								<div class="col-xs-6">
-									<button id="woodCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('wood')">Chop</button>
+									<h5><button id="woodCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('wood')">Chop</button></h5>
 								</div>
 								<div class="col-xs-6">
 									<button class="psText sizeSecRegular pointer noselect" id="woodPs" onclick="getPsString('wood')">+0/sec</button>
@@ -227,7 +227,7 @@
 							</div>
 							<div class="row collectRow">
 								<div class="col-xs-6">
-									<button id="metalCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('metal')">Mine</button>
+									<h5><button id="metalCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('metal')">Mine</button></h5>
 								</div>
 								<div class="col-xs-6">
 									<button class="psText sizeSecRegular pointer noselect" id="metalPs" onclick="getPsString('metal')">+0/sec</button>
@@ -241,7 +241,7 @@
 							<br/>
 							<div class="row collectRow">
 								<div class="col-xs-6">
-									<button id="scienceCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('science')">Research</button>
+									<h5><button id="scienceCollectBtn" class="workBtn workColorOff pointer noselect" onclick="setGather('science')">Research</button></h5>
 								</div>
 								<div class="col-xs-6">
 									<button class="psText sizeSecRegular pointer noselect" id="sciencePs" onclick="getPsString('science')">+0/sec</button>
@@ -302,7 +302,7 @@
 						<span id="trimpsEmployed">0</span>/<span id="maxEmployed">0</span> employed
 					</div>
 					<div id="trapArea">
-						<button id="trimpsCollectBtn" class="workBtn workColorOff pointer noSelect" onclick="setGather('trimps')">Check&nbsp;Traps&nbsp;(<span id="trimpTrapText">1</span>)</button>
+						<h5><button id="trimpsCollectBtn" class="workBtn workColorOff pointer noSelect" onclick="setGather('trimps')">Check&nbsp;Traps&nbsp;(<span id="trimpTrapText">1</span>)</button></h5>
 						<div id="trimpsCollecting" class="collecting" style="display: none">Trapping (<span id="trimpTrapText2">1</span>)</div>
 						<div class="progress" id="trappingProgress">
 							<div class="progress-bar" id="trappingBar" role="progressbar"></div>
@@ -370,7 +370,7 @@
 							<button id="autoTrapBtn" style="display: none" onclick="toggleAutoTrap()" class="pointer noselect colorDanger autoUpgradeBtn">AutoTraps Off</button>
 						</div>
 						<div class="col-xs-3">
-							<button id="buildingsCollectBtn" onclick="setGather('buildings')" class="workBtn workColorOff pointer noselect">Build Buildings</button>
+							<h5><button id="buildingsCollectBtn" onclick="setGather('buildings')" class="workBtn workColorOff pointer noselect">Build Buildings</button></h5>
 						</div>
 					</div>
 					<div class="queue niceScroll" id="buildingsQueue">
@@ -1430,31 +1430,31 @@
 	<div id="settingsRow">
 		<table id="settingsTable">
 			<tr>
-				<td class="btn btn-info" onclick="save(false, true)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-info" onclick="save(false, true)" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					Save <span id="saveIndicator"></span><span id="playFabIndicator"></span>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Export</div>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Import</div>
 				</td>
-				<td class="btn btn-success" onclick="toggleStats()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-success" onclick="toggleStats()" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Stats</div>
 				</td>
-				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Achieves</div>
 				</td>
-				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div id='settingsText'>Settings</div>
 				</td>
-				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" aria-label="View Past Upgrades">
+				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" aria-label="View Past Upgrades">
 
 				</td>
-				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 						V <span id="versionNumber"></span> | What's New
 				</td>
-				<td  id="portalTimer" class="timerNotPaused" onclick="toggleSetting('pauseGame')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+				<td  id="portalTimer" class="timerNotPaused" onclick="toggleSetting('pauseGame')" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<span id="portalTime">&nbsp;</span>&nbsp;&nbsp;<span style='font-size: 0.85em; line-height: 0.85em;' class='icomoon icon-pause3'></span>&nbsp;
 				</td>
 			</tr>
