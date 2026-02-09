@@ -103,7 +103,7 @@
 					<div id="boneOwnedContainer">
 						You have <span id="bonesOwned">0</span>
 					</div>
-					<span id="bonesFrom">You Can Also Earn Bones In Game By Killing Skeletimps. You also earn 1 bone per minute.</span>
+					<span id="bonesFrom">You Can Also Earn Bones In Game By Killing Skeletimps.</span>
 					<br/>
 					<div id="boneFlavorRow">
 						The Bone Trader trades bones for... bonuses
@@ -1030,13 +1030,13 @@
 				<fieldset class="nav nav-tabs nav-justified" id="portalPresetsTabs">
 						<legend>Perk Preset</legend>
 						<label class="tabNotSelected" id="presetTab1">
-							<input type="radio" name="perkPreset" value="1" onclick="presetTab(1, true)"> <span id="presetTab1Text">Preset 1</span>
+							<input type="radio" name="perkPreset" value="1" onclick="presetTab(1)"> <span id="presetTab1Text">Preset 1</span>
 						</label>
 						<label class="tabNotSelected" id="presetTab2">
-							<input type="radio" name="perkPreset" value="2" onclick="presetTab(2, true)"> <span id="presetTab2Text">Preset 2</span>
+							<input type="radio" name="perkPreset" value="2" onclick="presetTab(2)"> <span id="presetTab2Text">Preset 2</span>
 						</label>
 						<label class="tabNotSelected" id="presetTab3">
-							<input type="radio" name="perkPreset" value="3" onclick="presetTab(3, true)"> <span id="presetTab3Text">Preset 3</span>
+							<input type="radio" name="perkPreset" value="3" onclick="presetTab(3)"> <span id="presetTab3Text">Preset 3</span>
 						</label>
 						<button class="tabNotEnabled" id="presetTabSave" onclick="savePerkPreset()">Save</button>
 						<button class="tabNotEnabled" id="presetTabLoad" onclick="loadPerkPreset()">Load</button>
@@ -1176,7 +1176,7 @@
 			<div class="col-xs-4" id="statCol3">
 			</div>			
 		</div>
-		<button class="btn btn-danger inPortalBtn" id="closeStatsBtn" onclick="toggleStats()">Close</button>&nbsp;<button class="btn btn-info inPortalBtn" id="closeStatsBtn" onclick="tooltip('Trimps Info', null, 'update')">Trimps Info</button>
+		<button class="btn btn-danger inPortalBtn" id="closeStatsBtn" onclick="toggleStats()">Close</button>&nbsp;<button class="btn btn-info inPortalBtn" id="trimpsInfoBtn" onclick="tooltip('Trimps Info', null, 'update')">Trimps Info</button>
 	</div>
 	<div id="mutTreeWrapper" style="display: none" class="noselect">
 	</div>
@@ -1430,31 +1430,31 @@
 	<div id="settingsRow">
 		<table id="settingsTable">
 			<tr>
-				<td class="btn btn-info" onclick="save(false, true)" role="link" tabindex="0">
+				<td class="btn btn-info" onclick="save(false, true)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					Save <span id="saveIndicator"></span><span id="playFabIndicator"></span>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="link" tabindex="0">
+				<td class="btn btn-info" onclick="tooltip('Export', null, 'update')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Export</div>
 				</td>
-				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="link" tabindex="0">
+				<td class="btn btn-info" onclick="tooltip('Import', null, 'update')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Import</div>
 				</td>
-				<td class="btn btn-success" onclick="toggleStats()" role="link" tabindex="0">
+				<td class="btn btn-success" onclick="toggleStats()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Stats</div>
 				</td>
-				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="link" tabindex="0">
+				<td class="btn tealColor" onclick="toggleAchievementWindow()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div>Achieves</div>
 				</td>
-				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="link" tabindex="0">
+				<td class="btn btn-default" onclick="toggleSettingsMenu()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<div id='settingsText'>Settings</div>
 				</td>
-				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="link" tabindex="0" aria-label="View Past Upgrades">
-					
+				<td class="btn" id="pastUpgradesBtn" onclick="viewPortalUpgrades()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" aria-label="View Past Upgrades">
+
 				</td>
-				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="link" tabindex="0">
-						V <span id="versionNumber"></span> | What's New 
+				<td class="btn btn-new" onclick="window.open('updates.html', '_blank')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+						V <span id="versionNumber"></span> | What's New
 				</td>
-				<td  id="portalTimer" class="timerNotPaused" onclick="toggleSetting('pauseGame')" role="button" tabindex="0" >
+				<td  id="portalTimer" class="timerNotPaused" onclick="toggleSetting('pauseGame')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
 					<span id="portalTime">&nbsp;</span>&nbsp;&nbsp;<span style='font-size: 0.85em; line-height: 0.85em;' class='icomoon icon-pause3'></span>&nbsp;
 				</td>
 			</tr>

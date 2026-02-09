@@ -20095,11 +20095,6 @@ function gameLoop(makeUp, now) {
 	if (loops % 10 == 0){
 		runEverySecond(makeUp);
 	}
-	//every minute, grant a bone
-	if (loops % 600 == 0){
-		game.global.b++;
-		updateSkeleBtn();
-	}
 	//every 2 seconds
 	if (loops % 20 == 0){
 		if (mutations.Living.active()){

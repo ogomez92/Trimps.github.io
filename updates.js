@@ -1411,15 +1411,19 @@ function tooltip(what, isItIn, event, textString, attachFunction, numCheck, rena
 			saveName += " Z" + game.global.world;
 			var a = document.createElement('a');
 			a.download = saveName + '.txt';
-			if (Blob !== null) {
+			if (typeof Blob !== 'undefined' && typeof URL !== 'undefined' && URL.createObjectURL) {
 				var blob = new Blob([saveText], {type: 'text/plain'});
 				a.href = URL.createObjectURL(blob);
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(a.href);
 			} else {
 				a.href = 'data:text/plain,' + encodeURIComponent(saveText);
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
 			}
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
 			return;
 		}
 		if (textString){
@@ -2527,6 +2531,7 @@ function getPsString(what, rawNum) {
 	if (usingScreenReader) {
 		var resName = what.charAt(0).toUpperCase() + what.slice(1);
 		screenReaderAssert(resName + " per second: " + prettify(currentCalc));
+		game.global.lockTooltip = false;
 		return;
 	}
 	game.global.lockTooltip = false;
@@ -3586,6 +3591,7 @@ function getMaxResources(what) {
 	textString += "</tbody></table>";
 	if (usingScreenReader) {
 		screenReaderAssert("Max " + what + ": " + prettify(currentCalc) + ". " + structure + ": " + structureObj.owned);
+		game.global.lockTooltip = false;
 		return;
 	}
 	game.global.lockTooltip = false;
