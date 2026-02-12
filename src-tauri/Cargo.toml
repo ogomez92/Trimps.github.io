@@ -1,0 +1,21 @@
+[package]
+name = "trimps"
+version = "5.10.1"
+description = "Trimps - An Incremental Game"
+authors = ["Greensatellite"]
+license = "GPL-3.0"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.5.5", features = [] }
+
+[dependencies]
+tauri = { version = "2.10.2", features = [] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
