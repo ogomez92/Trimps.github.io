@@ -4620,6 +4620,17 @@ function gather() {
 			const timeToFillElem = document.getElementById(increase + 'TimeToFill');
 			const timeToMax = calculateTimeToMax(game.resources[increase], perSec, null, true);
 			if (timeToFillElem && timeToFillElem.innerHTML !== timeToMax) timeToFillElem.textContent = timeToMax;
+			if (increase === 'food' || increase === 'wood' || increase === 'metal') {
+				var collectBtn = document.getElementById(increase + 'CollectBtn');
+				if (collectBtn) {
+					var btnName = setGatherTextAs(increase, game.global.playerGathering === increase);
+					var resource = game.resources[increase];
+					var effectiveMax = calcHeirloomBonus("Shield", "storageSize", resource.max * (1 + game.portal.Packrat.modifier * getPerkLevel("Packrat")));
+					var isFull = resource.owned >= effectiveMax;
+					var ariaLabel = btnName + (isFull ? ', Full' : (timeToMax ? ', ' + timeToMax : ''));
+					collectBtn.setAttribute('aria-label', ariaLabel);
+				}
+			}
 		}
 	}
 
